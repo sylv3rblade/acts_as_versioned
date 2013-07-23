@@ -334,12 +334,7 @@ module ActiveRecord #:nodoc:
           self.class.versioned_columns.each do |col|
             next unless orig_model.has_attribute?(col.name)
             define_method(new_model, col.name.to_sym)
-            # This is iLab only version due to some internal specifics
-            if ['created_by','updated_by'].include?(col.name) && (Rails.env != 'test')
-              new_model.send("#{col.name.to_sym}=", orig_model.send(col.name).id)
-            else
-              new_model.send("#{col.name.to_sym}=", orig_model.send(col.name))
-            end
+
           end
 
           if orig_model.is_a?(self.class.versioned_class)
